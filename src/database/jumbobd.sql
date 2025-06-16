@@ -90,6 +90,7 @@ CREATE TABLE QueijoNota (
   idnota INT PRIMARY KEY AUTO_INCREMENT,
   idusuario INT,
   idqueijo INT,
+  titulo VARCHAR(45)
   idade TEXT,
   origem VARCHAR(255),
   comentarios TEXT,
