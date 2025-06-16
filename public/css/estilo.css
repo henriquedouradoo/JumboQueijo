@@ -25,6 +25,11 @@ body {
   display: flex;
   flex-direction: row;
 }
+
+.details-form{
+display: flex;
+flex-direction: column;
+}
 .img-form{
   width: 50vh;
   height: 50vh;
