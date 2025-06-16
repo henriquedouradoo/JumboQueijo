@@ -123,10 +123,11 @@
 
         var corpo = {
             titulo: form_postagem.titulo.value,
-            descricao: form_postagem.descricao.value
+            descricao: form_postagem.descricao.value,
+            idQueijo: sessionStorage.ID_QUEIJO
         }
 
-        fetch(`/avisos/publicar/${idUsuario}`, {
+        fetch(`/avaliacao/publicar/${idUsuario}`, {
             method: "post",
             headers: {
                 "Content-Type": "application/json"
@@ -138,7 +139,7 @@
 
             if (resposta.ok) {
                 window.alert("Post realizado com sucesso pelo usuario de ID: " + idUsuario + "!");
-                window.location = "/dashboard/mural.html";
+                window.location = "/dashboard/avaliacoes.html";
                 limparFormulario();
                 finalizarAguardar();
             } else if (resposta.status == 404) {
@@ -165,7 +166,7 @@
 
     function deletar(idAviso) {
         console.log("Criar função de apagar post escolhido - ID" + idAviso);
-        fetch(`/avisos/deletar/${idAviso}`, {
+        fetch(`/avaliacao/deletar/${idAviso}`, {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json"
@@ -186,7 +187,7 @@
     }
 
     function atualizarFeed() {
-        fetch("/avisos/listar").then(function (resposta) {
+        fetch("/avaliacao/listar").then(function (resposta) {
             if (resposta.ok) {
                 if (resposta.status == 204) {
                     var feed = document.getElementById("feed_container");

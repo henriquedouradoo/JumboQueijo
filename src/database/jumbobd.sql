@@ -63,10 +63,32 @@ CREATE TABLE loteQueijo (
   FOREIGN KEY (fk_Usuario) REFERENCES usuario(id)
 );
 
+<<<<<<< HEAD
+INSERT INTO queijo (
+  data_producao,
+  peso_kg,
+  tempo_maturacao_dias,
+  temperatura_armazenamento,
+  observacoes
+) VALUES (
+  '2025-06-15',
+  2.50,
+  2,
+  4.0,
+  'Muçarela tradicional - lote 001'
+);
+
+CREATE TABLE QueijoNota (
+  idnota INT PRIMARY KEY AUTO_INCREMENT,
+  idusuario INT,
+  idqueijo INT,
+  titulo VARCHAR(45)
+=======
 CREATE TABLE queijoNota (
   idNota INT PRIMARY KEY AUTO_INCREMENT,
   idUsuario INT,
   idQueijo INT,
+>>>>>>> d28d609e13ddb2c68d024f20e2c327ae4ee8da9a
   idade TEXT,
   origem VARCHAR(255),
   comentarios TEXT,
