@@ -68,25 +68,40 @@
                 <div id="alerta">
                 </div>
                 <div class="container">
-                    <h1>Publicar uma Avaliação</h1>
+                    <h1>Publicar uma Avaliação Técnica do seu Queijo</h1>
                     <div class="div-form">
                         <div class="details-form">
-                            <h3>Nome do Queijo: x</h3>
-                            <h3>Idade: x</h3>
-                            <h3>Origem: x</h3>
                         </div>
                         <form id="form_postagem" method="post" onsubmit="return publicar()">
                             <label>
-                                Título:
+                                Nome do Queijo:
                                 <br>
-                                <input name="titulo" id="titulo" maxlength="100" type="text">
+                                <br>
+                                <input name="titulo" id="titulo" maxlength="100" type="text" placeholder="Informe a marca do seu Queijo">
                             </label>
                             <br>
                             <br>
                             <label>
-                                Descrição (máximo de 250 caracteres):
+                                Idade:
                                 <br>
-                                <textarea name="descricao" id="textarea_descricao" maxlength="250" rows="5"></textarea>
+                                <br>
+                                <input name="idade" id="idade" maxlength="100" type="text" placeholder="Ex: De 3 a 4 meses">
+                            </label>
+                            <br>
+                            <br>
+                            <label>
+                                Origem:
+                                <br>
+                                <br>
+                                <input name="origem" id="origem" maxlength="100" type="text" placeholder="Informe o Estado de Origem do seu Queijo">
+                            </label>
+                            <br>
+                            <br>
+                            <label>
+                                Descrição técnica (máximo de 250 caracteres):
+                                <br>
+                                <br>
+                                <textarea name="descricao" id="textarea_descricao" maxlength="250" rows="10" placeholder="Notas sobre produção ou qualidade. Ex: casca lavada, massa filada, aroma suave..."></textarea p>
                             </label>
                             <br>
                             <br>
