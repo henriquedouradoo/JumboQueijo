@@ -1,77 +1,69 @@
--- Arquivo de apoio, caso você queira criar tabelas como as aqui criadas para a API funcionar.
--- Você precisa executar os comandos no banco de dados para criar as tabelas,
--- ter este arquivo aqui não significa que a tabela em seu BD estará como abaixo!
-
-/*
-comandos para mysql server
-*/
-
-CREATE DATABASE aquatech;
-
-USE aquatech;
+CREATE DATABASE jumboQueijo;
+USE jumboQueijo;
 
 CREATE TABLE empresa (
 	id INT PRIMARY KEY AUTO_INCREMENT,
-	razao_social VARCHAR(50),
-	cnpj CHAR(14),
-	codigo_ativacao VARCHAR(50)
+	razao_social VARCHAR(50) NOT NULL,
+	cnpj CHAR(14) NOT NULL,
+	codigo_ativacao VARCHAR(50) NOT NULL
 );
 
 CREATE TABLE usuario (
 	id INT PRIMARY KEY AUTO_INCREMENT,
-	nome VARCHAR(50),
-	email VARCHAR(50),
-	senha VARCHAR(50),
-	fk_empresa INT,
+	nome VARCHAR(50) NOT NULL,
+	email VARCHAR(50) NOT NULL,
+	senha VARCHAR(50) NOT NULL, 
+	fk_empresa INT NOT NULL,
 	FOREIGN KEY (fk_empresa) REFERENCES empresa(id)
 );
+
+-- CRIAÇÃO DE TRIGGER PARA QUANDO HOUVER A INSERÇÃO DE NOVA SENHA, A MESMA SER CRIPTOGRAFADA.
+DELIMITER $
+CREATE TRIGGER crip_senha
+BEFORE INSERT ON usuario
+FOR EACH ROW
+BEGIN
+     SET NEW.senha = SHA2(NEW.senha, 256);
+END;
+$
+DELIMITER ;
 
 CREATE TABLE aviso (
 	id INT PRIMARY KEY AUTO_INCREMENT,
-	titulo VARCHAR(100),
-	descricao VARCHAR(150),
-	fk_usuario INT,
+	titulo VARCHAR(100) NOT NULL,
+	descricao VARCHAR(150) NOT NULL,
+	fk_usuario INT NOT NULL,
 	FOREIGN KEY (fk_usuario) REFERENCES usuario(id)
 );
 
-create table aquario (
-/* em nossa regra de negócio, um aquario tem apenas um sensor */
+create table salaMaturacao (
 	id INT PRIMARY KEY AUTO_INCREMENT,
-	descricao VARCHAR(300),
-	fk_empresa INT,
+	descricao VARCHAR(300) NOT NULL,
+	fk_empresa INT NOT NULL,
 	FOREIGN KEY (fk_empresa) REFERENCES empresa(id)
 );
 
-/* esta tabela deve estar de acordo com o que está em INSERT de sua API do arduino - dat-acqu-ino */
-
 create table medida (
 	id INT PRIMARY KEY AUTO_INCREMENT,
-	dht11_umidade DECIMAL,
-	dht11_temperatura DECIMAL,
-	luminosidade DECIMAL,
-	lm35_temperatura DECIMAL,
-	chave TINYINT,
-	momento DATETIME,
-	fk_aquario INT,
-	FOREIGN KEY (fk_aquario) REFERENCES aquario(id)
+	dht11_umidade DECIMAL NOT NULL,
+	dht11_temperatura DECIMAL NOT NULL,
+	momento DATETIME NOT NULL,
+	fk_salaMaturacao INT NOT NULL,
+	FOREIGN KEY (fk_salaMaturacao) REFERENCES salaMaturacao(id)
 );
 
-insert into empresa (razao_social, codigo_ativacao) values ('Empresa 1', 'ED145B');
-insert into empresa (razao_social, codigo_ativacao) values ('Empresa 2', 'A1B2C3');
-insert into aquario (descricao, fk_empresa) values ('Aquário de Estrela-do-mar', 1);
-insert into aquario (descricao, fk_empresa) values ('Aquário de Peixe-dourado', 2);
-
--- tabelas novas pra o queijo
-
-CREATE TABLE queijo (
-  idqueijo INT PRIMARY KEY AUTO_INCREMENT,
+CREATE TABLE loteQueijo (
+  idQueijo INT PRIMARY KEY AUTO_INCREMENT,
   data_producao DATE NOT NULL,
-  peso_kg DECIMAL(5,2),
+  peso_kg DECIMAL(5,2) NOT NULL,
   tempo_maturacao_dias INT,
   temperatura_armazenamento DECIMAL(4,1),
-  observacoes TEXT
+  observacoes TEXT,
+  fk_Usuario INT,
+  FOREIGN KEY (fk_Usuario) REFERENCES usuario(id)
 );
 
+<<<<<<< HEAD
 INSERT INTO queijo (
   data_producao,
   peso_kg,
@@ -91,13 +83,28 @@ CREATE TABLE QueijoNota (
   idusuario INT,
   idqueijo INT,
   titulo VARCHAR(45)
+=======
+CREATE TABLE queijoNota (
+  idNota INT PRIMARY KEY AUTO_INCREMENT,
+  idUsuario INT,
+  idQueijo INT,
+>>>>>>> d28d609e13ddb2c68d024f20e2c327ae4ee8da9a
   idade TEXT,
   origem VARCHAR(255),
   comentarios TEXT,
   foto VARCHAR(255),
-  FOREIGN KEY (idusuario) REFERENCES usuario(id),
-  FOREIGN KEY (idqueijo) REFERENCES queijo(idqueijo)
+  FOREIGN KEY (idUsuario) REFERENCES usuario(id),
+  FOREIGN KEY (idQueijo) REFERENCES loteQueijo(idQueijo)
 );
 
+-- INSERÇÕES BASE
+INSERT INTO loteQueijo (data_producao, peso_kg, tempo_maturacao_dias, temperatura_armazenamento, observacoes) VALUES
+('2025-06-15', 2.50, 2, 4.0, 'Muçarela tradicional - lote 001');
 
+insert into empresa VALUES
+(1, 'GVINAH', '75152878521298', 'ED145B');
 
+insert into empresa values
+(2, 'Tirolez', '18210358741203', 'A1B2C3');
+
+-- drop database jumboQueijo;
