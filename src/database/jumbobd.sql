@@ -8,13 +8,41 @@ CREATE TABLE empresa (
 	codigo_ativacao VARCHAR(50)
 );
 
+create table salaMaturacao (
+	id INT PRIMARY KEY AUTO_INCREMENT,
+	descricao VARCHAR(300) NOT NULL,
+	fk_empresa INT NOT NULL,
+	FOREIGN KEY (fk_empresa) REFERENCES empresa(id)
+);
+
+create table medida (
+	id INT PRIMARY KEY AUTO_INCREMENT,
+	dht11_umidade DECIMAL NOT NULL,
+	dht11_temperatura DECIMAL NOT NULL,
+	momento DATETIME NOT NULL,
+	fk_salaMaturacao INT NOT NULL,
+	FOREIGN KEY (fk_salaMaturacao) REFERENCES salaMaturacao(id)
+);
+
+CREATE TABLE loteQueijo (
+  idqueijo INT PRIMARY KEY AUTO_INCREMENT,
+  marca varchar(45),
+  data_producao DATE NOT NULL,
+  peso_kg DECIMAL(5,2),
+  tempo_maturacao_dias INT,
+  temperatura_armazenamento DECIMAL(4,1),
+  observacoes TEXT
+);
+
 CREATE TABLE usuario (
 	id INT PRIMARY KEY AUTO_INCREMENT,
 	nome VARCHAR(50) NOT NULL,
 	email VARCHAR(50) NOT NULL,
 	senha VARCHAR(50) NOT NULL, 
 	fk_empresa INT NOT NULL,
-	FOREIGN KEY (fk_empresa) REFERENCES empresa(id)
+	fkQueijo INT NOT NULL,
+	FOREIGN KEY (fk_empresa) REFERENCES empresa(id),
+	FOREIGM KEY (fkQueijo) REFERENCES loteQueijo(idQueijo)
 );
 
 -- CRIAÇÃO DE TRIGGER PARA QUANDO HOUVER A INSERÇÃO DE NOVA SENHA, A MESMA SER CRIPTOGRAFADA.
@@ -36,70 +64,23 @@ CREATE TABLE aviso (
 	FOREIGN KEY (fk_usuario) REFERENCES usuario(id)
 );
 
-create table salaMaturacao (
-	id INT PRIMARY KEY AUTO_INCREMENT,
-	descricao VARCHAR(300) NOT NULL,
-	fk_empresa INT NOT NULL,
-	FOREIGN KEY (fk_empresa) REFERENCES empresa(id)
-);
 
-create table medida (
-	id INT PRIMARY KEY AUTO_INCREMENT,
-	dht11_umidade DECIMAL NOT NULL,
-	dht11_temperatura DECIMAL NOT NULL,
-	momento DATETIME NOT NULL,
-	fk_salaMaturacao INT NOT NULL,
-	FOREIGN KEY (fk_salaMaturacao) REFERENCES salaMaturacao(id)
-);
-
-CREATE TABLE loteQueijo (
-  idQueijo INT PRIMARY KEY AUTO_INCREMENT,
-  data_producao DATE NOT NULL,
-  peso_kg DECIMAL(5,2) NOT NULL,
-  tempo_maturacao_dias INT,
-  temperatura_armazenamento DECIMAL(4,1),
-  observacoes TEXT,
-  fk_Usuario INT,
-  FOREIGN KEY (fk_Usuario) REFERENCES usuario(id)
-);
-
-<<<<<<< HEAD
-INSERT INTO queijo (
-  data_producao,
-  peso_kg,
-  tempo_maturacao_dias,
-  temperatura_armazenamento,
-  observacoes
-) VALUES (
-  '2025-06-15',
-  2.50,
-  2,
-  4.0,
-  'Muçarela tradicional - lote 001'
-);
-
-CREATE TABLE QueijoNota (
+CREATE TABLE queijoNota (
   idnota INT PRIMARY KEY AUTO_INCREMENT,
   idusuario INT,
   idqueijo INT,
-  titulo VARCHAR(45)
-=======
-CREATE TABLE queijoNota (
-  idNota INT PRIMARY KEY AUTO_INCREMENT,
-  idUsuario INT,
-  idQueijo INT,
->>>>>>> d28d609e13ddb2c68d024f20e2c327ae4ee8da9a
-  idade TEXT,
+  idade varchar(255),
   origem VARCHAR(255),
+  marca varchar(45),
   comentarios TEXT,
   foto VARCHAR(255),
-  FOREIGN KEY (idUsuario) REFERENCES usuario(id),
-  FOREIGN KEY (idQueijo) REFERENCES loteQueijo(idQueijo)
+  FOREIGN KEY (idusuario) REFERENCES usuario(id),
+  FOREIGN KEY (idqueijo) REFERENCES queijo(idqueijo)
 );
 
 -- INSERÇÕES BASE
 INSERT INTO loteQueijo (data_producao, peso_kg, tempo_maturacao_dias, temperatura_armazenamento, observacoes) VALUES
-('2025-06-15', 2.50, 2, 4.0, 'Muçarela tradicional - lote 001');
+('2025-06-15', 2.50, 2, 4.0, 'Mussarela tradicional - lote 001');
 
 insert into empresa VALUES
 (1, 'GVINAH', '75152878521298', 'ED145B');
