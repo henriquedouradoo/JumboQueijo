@@ -21,6 +21,16 @@ body {
   margin: auto;
 }
 
+.div-form{
+  display: flex;
+  flex-direction: row;
+}
+.img-form{
+  width: 50vh;
+  height: 50vh;
+  border: white 2px solid;
+}
+
 .header {
   height: var(--tamanho-header);
   border-bottom: 2px solid #32b9cd;
