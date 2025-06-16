@@ -139,7 +139,7 @@
         var corpo = {
             titulo: form_postagem.titulo.value,
             descricao: form_postagem.descricao.value,
-            idQueijo: sessionStorage.ID_QUEIJO
+            idQueijo: sessionStorage.ID_QUEIJO,
         }
 
         fetch(`/avaliacao/publicar/${idUsuario}`, {
